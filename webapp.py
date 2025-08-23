@@ -11,6 +11,9 @@ st.title("📊 Distribuição do FUNDEB/FUNDEPE")
 st.markdown("#### Por: **Debora**")
 st.markdown("---")
 
+# =====================================================
+# OBJETIVO
+# =====================================================
 st.header("🎯 Objetivo do App")
 st.write("""
 O presente aplicativo tem como objetivo **consultar e visualizar** 
@@ -29,6 +32,9 @@ simples, interativa e acessível.
 
 st.markdown("---")
 
+# =====================================================
+# ESTRUTURA DO APP
+# =====================================================
 st.header("📌 Estrutura do App")
 
 with st.expander("🔍 Consulta por Município e Ano"):
@@ -42,6 +48,9 @@ with st.expander("📂 Relatórios"):
 
 st.markdown("---")
 
+# =====================================================
+# BASES DE DADOS
+# =====================================================
 st.header("📚 Bases de Dados Previstas")
 st.write("""
 As principais fontes de dados serão:
@@ -55,6 +64,9 @@ As principais fontes de dados serão:
 
 st.markdown("---")
 
+# =====================================================
+# DEMONSTRAÇÃO COM DADOS FICTÍCIOS
+# =====================================================
 st.header("🖥️ Demonstração (com dados fictícios)")
 
 col1, col2 = st.columns(2)
@@ -74,7 +86,7 @@ resultado = dados_demo.get((municipio, ano), {"matriculas": "N/D", "valor": "N/D
 
 st.subheader(f"📌 Dados simulados para {municipio} em {ano}:")
 
-# ✅ Correção para evitar erro de formatação
+# Correção para evitar erro de formatação
 matriculas = resultado["matriculas"]
 valor = resultado["valor"]
 
@@ -95,13 +107,18 @@ st.info("⚠️ Obs: Estes valores são **simulações fictícias**. Futuramente
 
 st.markdown("---")
 
+# =====================================================
+# CONCLUSÃO
+# =====================================================
 st.header("✅ Conclusão")
 st.write("""
 Este app é um **protótipo inicial**.  
+
 As próximas etapas de desenvolvimento incluirão:
 - Carregamento dos dados reais a partir das portarias do MEC;
 - Criação de gráficos interativos (barras, linhas, mapas);
 - Exportação de relatórios em PDF e Excel.
 
 Com isso, será possível **facilitar a análise** da distribuição dos recursos 
-e apoiar a gestão
+e apoiar a gestão educacional em estados e municípios.
+""")

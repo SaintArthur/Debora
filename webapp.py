@@ -60,9 +60,11 @@ st.markdown("---")
 # =====================================================
 st.header("🖥️ Demonstração Interativa")
 
+# Colunas de seleção sem gerar barras brancas
 col1, col2 = st.columns(2)
 with col1:
-    municipio = st.selectbox("🏙️ Selecione o Município:", ["Fortaleza", "São Paulo", "Salvador", "Belo Horizonte"])
+    municipio = st.selectbox("🏙️ Selecione o Município:", 
+                             ["Fortaleza", "São Paulo", "Salvador", "Belo Horizonte"])
 with col2:
     ano = st.selectbox("📅 Selecione o Ano:", [2022, 2023, 2024])
 

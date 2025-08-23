@@ -11,7 +11,7 @@ st.set_page_config(
     layout="wide"
 )
 
-# Estilo customizado (CSS inline para deixar visual moderno)
+# Estilo customizado para deixar o app moderno
 st.markdown("""
 <style>
     .big-font {
@@ -75,16 +75,18 @@ dados_demo = {
 
 resultado = dados_demo.get((municipio, ano), {"matriculas": "N/D", "valor": "N/D"})
 
-# Exibir métricas em "cards"
+# Exibir métricas em cards estilizados
 colA, colB = st.columns(2)
 with colA:
     st.markdown("<div class='metric-container'>", unsafe_allow_html=True)
-    st.metric("Número de Matrículas", f"{resultado['matriculas']:,}".replace(",", ".") if isinstance(resultado['matriculas'], int) else resultado['matriculas'])
+    matriculas_fmt = f"{resultado['matriculas']:,}".replace(",", ".") if isinstance(resultado['matriculas'], int) else resultado['matriculas']
+    st.metric("Número de Matrículas", matriculas_fmt)
     st.markdown("</div>", unsafe_allow_html=True)
 
 with colB:
     st.markdown("<div class='metric-container'>", unsafe_allow_html=True)
-    st.metric("Valor Recebido", f"R$ {resultado['valor']:,}".replace(",", ".") if isinstance(resultado['valor'], int) else resultado['valor'])
+    valor_fmt = f"R$ {resultado['valor']:,}".replace(",", ".") if isinstance(resultado['valor'], int) else resultado['valor']
+    st.metric("Valor Recebido", valor_fmt)
     st.markdown("</div>", unsafe_allow_html=True)
 
 st.info("⚠️ Obs: Estes valores são **simulações fictícias**. Futuramente serão substituídos pelos dados oficiais do MEC.")

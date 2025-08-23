@@ -73,8 +73,23 @@ dados_demo = {
 resultado = dados_demo.get((municipio, ano), {"matriculas": "N/D", "valor": "N/D"})
 
 st.subheader(f"📌 Dados simulados para {municipio} em {ano}:")
-st.metric("Número de Matrículas", f"{resultado['matriculas']:,}".replace(",", "."))
-st.metric("Valor FUNDEB/FUNDEPE Recebido", f"R$ {resultado['valor']:,}".replace(",", "."))
+
+# ✅ Correção para evitar erro de formatação
+matriculas = resultado["matriculas"]
+valor = resultado["valor"]
+
+if isinstance(matriculas, int):
+    matriculas_fmt = f"{matriculas:,}".replace(",", ".")
+else:
+    matriculas_fmt = matriculas
+
+if isinstance(valor, int):
+    valor_fmt = f"R$ {valor:,}".replace(",", ".")
+else:
+    valor_fmt = valor
+
+st.metric("Número de Matrículas", matriculas_fmt)
+st.metric("Valor FUNDEB/FUNDEPE Recebido", valor_fmt)
 
 st.info("⚠️ Obs: Estes valores são **simulações fictícias**. Futuramente serão substituídos pelos dados oficiais do MEC.")
 
@@ -89,5 +104,4 @@ As próximas etapas de desenvolvimento incluirão:
 - Exportação de relatórios em PDF e Excel.
 
 Com isso, será possível **facilitar a análise** da distribuição dos recursos 
-e apoiar a gestão educacional em estados e municípios.
-""")
+e apoiar a gestão

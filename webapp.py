@@ -1,65 +1,56 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
+# =====================================================
+# CONFIGURAÇÃO DO APP
+# =====================================================
 st.set_page_config(
     page_title="Distribuição do FUNDEB/FUNDEPE",
     page_icon="📊",
     layout="wide"
 )
 
+# Estilo customizado (CSS inline para deixar visual moderno)
+st.markdown("""
+<style>
+    .big-font {
+        font-size:28px !important;
+        font-weight: bold;
+        color: #2E86C1;
+    }
+    .metric-container {
+        background-color: #F8F9F9;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 15px;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# =====================================================
+# CABEÇALHO
+# =====================================================
 st.title("📊 Distribuição do FUNDEB/FUNDEPE")
-st.markdown("#### Por: **Debora**")
+st.markdown("<p class='big-font'>Por: Débora</p>", unsafe_allow_html=True)
 st.markdown("---")
 
 # =====================================================
 # OBJETIVO
 # =====================================================
 st.header("🎯 Objetivo do App")
-st.write("""
-O presente aplicativo tem como objetivo **consultar e visualizar** 
-informações sobre a distribuição do **FUNDEB/FUNDEPE** no Brasil.  
+st.info("""
+O presente aplicativo tem como objetivo **consultar e visualizar** informações sobre a distribuição do **FUNDEB/FUNDEPE** no Brasil.  
 
-O **FUNDEB** é o principal fundo de financiamento da educação básica, 
-e o **MEC** publica **portarias trimestrais** que detalham:
+O **FUNDEB** é o principal fundo de financiamento da educação básica, e o **MEC** publica portarias trimestrais que detalham:
 - Recursos recebidos por estado;
 - Complementações da União;
 - Matrículas por município;
 - Distribuição consolidada final.  
 
-Este app servirá de protótipo para explorar esses dados de forma 
-simples, interativa e acessível.
-""")
-
-st.markdown("---")
-
-# =====================================================
-# ESTRUTURA DO APP
-# =====================================================
-st.header("📌 Estrutura do App")
-
-with st.expander("🔍 Consulta por Município e Ano"):
-    st.write("Permite selecionar o município e o ano para visualizar os dados de matrículas e valores recebidos.")
-
-with st.expander("📈 Visualização dos Dados"):
-    st.write("Gráficos interativos para comparar a distribuição dos recursos entre municípios e estados.")
-
-with st.expander("📂 Relatórios"):
-    st.write("Geração futura de relatórios exportáveis (PDF/CSV/XLSX) com base na consulta realizada.")
-
-st.markdown("---")
-
-# =====================================================
-# BASES DE DADOS
-# =====================================================
-st.header("📚 Bases de Dados Previstas")
-st.write("""
-As principais fontes de dados serão:
-- **Portarias do MEC sobre FUNDEB/FUNDEPE** (publicadas anualmente e atualizadas a cada 3 meses);
-- **Anexos das Portarias**:  
-   - Anexo I: Valores repassados por Estado;  
-   - Anexo II: Complementações da União;  
-   - Anexo III: Matrículas por Município;  
-   - Anexo IV: Distribuição consolidada final.  
+Este app é um **protótipo interativo** para simular como essas informações podem ser apresentadas de forma visual e acessível.
 """)
 
 st.markdown("---")
@@ -67,43 +58,54 @@ st.markdown("---")
 # =====================================================
 # DEMONSTRAÇÃO COM DADOS FICTÍCIOS
 # =====================================================
-st.header("🖥️ Demonstração (com dados fictícios)")
+st.header("🖥️ Demonstração Interativa")
 
 col1, col2 = st.columns(2)
 with col1:
-    municipio = st.selectbox("Selecione o Município:", ["Fortaleza", "São Paulo", "Salvador", "Belo Horizonte"])
+    municipio = st.selectbox("🏙️ Selecione o Município:", ["Fortaleza", "São Paulo", "Salvador", "Belo Horizonte"])
 with col2:
-    ano = st.selectbox("Selecione o Ano:", [2022, 2023, 2024])
+    ano = st.selectbox("📅 Selecione o Ano:", [2022, 2023, 2024])
 
 dados_demo = {
-    ("Fortaleza", 2023): {"matriculas": 350000, "valor": 2_450_000_000},
-    ("São Paulo", 2023): {"matriculas": 1200000, "valor": 9_800_000_000},
-    ("Salvador", 2023): {"matriculas": 420000, "valor": 2_950_000_000},
-    ("Belo Horizonte", 2023): {"matriculas": 310000, "valor": 2_100_000_000},
+    ("Fortaleza", 2023): {"matriculas": 350000, "valor": 2450000000},
+    ("São Paulo", 2023): {"matriculas": 1200000, "valor": 9800000000},
+    ("Salvador", 2023): {"matriculas": 420000, "valor": 2950000000},
+    ("Belo Horizonte", 2023): {"matriculas": 310000, "valor": 2100000000},
 }
 
 resultado = dados_demo.get((municipio, ano), {"matriculas": "N/D", "valor": "N/D"})
 
-st.subheader(f"📌 Dados simulados para {municipio} em {ano}:")
+# Exibir métricas em "cards"
+colA, colB = st.columns(2)
+with colA:
+    st.markdown("<div class='metric-container'>", unsafe_allow_html=True)
+    st.metric("Número de Matrículas", f"{resultado['matriculas']:,}".replace(",", ".") if isinstance(resultado['matriculas'], int) else resultado['matriculas'])
+    st.markdown("</div>", unsafe_allow_html=True)
 
-# Correção para evitar erro de formatação
-matriculas = resultado["matriculas"]
-valor = resultado["valor"]
-
-if isinstance(matriculas, int):
-    matriculas_fmt = f"{matriculas:,}".replace(",", ".")
-else:
-    matriculas_fmt = matriculas
-
-if isinstance(valor, int):
-    valor_fmt = f"R$ {valor:,}".replace(",", ".")
-else:
-    valor_fmt = valor
-
-st.metric("Número de Matrículas", matriculas_fmt)
-st.metric("Valor FUNDEB/FUNDEPE Recebido", valor_fmt)
+with colB:
+    st.markdown("<div class='metric-container'>", unsafe_allow_html=True)
+    st.metric("Valor Recebido", f"R$ {resultado['valor']:,}".replace(",", ".") if isinstance(resultado['valor'], int) else resultado['valor'])
+    st.markdown("</div>", unsafe_allow_html=True)
 
 st.info("⚠️ Obs: Estes valores são **simulações fictícias**. Futuramente serão substituídos pelos dados oficiais do MEC.")
+
+# =====================================================
+# VISUALIZAÇÃO GRÁFICA
+# =====================================================
+st.header("📈 Visualização dos Dados (Fictícios)")
+
+df_demo = pd.DataFrame([
+    {"Município": "Fortaleza", "Ano": 2023, "Matrículas": 350000, "Valor": 2450000000},
+    {"Município": "São Paulo", "Ano": 2023, "Matrículas": 1200000, "Valor": 9800000000},
+    {"Município": "Salvador", "Ano": 2023, "Matrículas": 420000, "Valor": 2950000000},
+    {"Município": "Belo Horizonte", "Ano": 2023, "Matrículas": 310000, "Valor": 2100000000},
+])
+
+fig = px.bar(df_demo, x="Município", y="Valor", color="Município",
+             labels={"Valor": "Valor Recebido (R$)", "Município": "Cidade"},
+             title="Distribuição Fictícia de Recursos FUNDEB 2023")
+
+st.plotly_chart(fig, use_container_width=True)
 
 st.markdown("---")
 
@@ -111,14 +113,17 @@ st.markdown("---")
 # CONCLUSÃO
 # =====================================================
 st.header("✅ Conclusão")
-st.write("""
-Este app é um **protótipo inicial**.  
+st.success("""
+Este app é um **protótipo inicial** que já mostra:
+- Layout moderno e interativo;
+- Seleção dinâmica de município e ano;
+- Indicadores em destaque (cards);
+- Gráfico interativo com Plotly.
 
-As próximas etapas de desenvolvimento incluirão:
-- Carregamento dos dados reais a partir das portarias do MEC;
-- Criação de gráficos interativos (barras, linhas, mapas);
-- Exportação de relatórios em PDF e Excel.
+As próximas etapas incluirão:
+- Integração com dados reais do MEC;
+- Mapas interativos (geolocalização);
+- Exportação de relatórios em PDF/Excel.
 
-Com isso, será possível **facilitar a análise** da distribuição dos recursos 
-e apoiar a gestão educacional em estados e municípios.
+Dessa forma, será possível **facilitar a análise da distribuição dos recursos** e apoiar a gestão educacional em estados e municípios.
 """)

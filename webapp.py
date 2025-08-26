@@ -6,7 +6,7 @@ import plotly.express as px
 # CONFIGURAÇÃO DO APP
 # =====================================================
 st.set_page_config(
-    page_title="Distribuição do FUNDEB/FUNDEPE",
+    page_title="Distribuição do FUNDEB",
     page_icon="📊",
     layout="wide"
 )
@@ -152,3 +152,4 @@ As próximas etapas incluirão:
 
 Dessa forma, será possível **facilitar a análise da distribuição dos recursos** e apoiar a gestão educacional em estados e municípios.
 """)
+

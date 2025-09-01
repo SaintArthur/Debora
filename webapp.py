@@ -33,7 +33,7 @@ st.markdown("""
 # =====================================================
 # CABEÇALHO
 # =====================================================
-st.title("📊 Distribuição do FUNDEB/FUNDEPE")
+st.title("📊 Distribuição do FUNDEB")
 st.markdown("<p class='big-font'>Por: Débora</p>", unsafe_allow_html=True)
 st.markdown("---")
 
@@ -152,4 +152,5 @@ As próximas etapas incluirão:
 
 Dessa forma, será possível **facilitar a análise da distribuição dos recursos** e apoiar a gestão educacional em estados e municípios.
 """)
+
 
